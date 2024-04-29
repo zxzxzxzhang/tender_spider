@@ -1,6 +1,3 @@
-import pandas as pd
-import random
-import requests
 import re
 from bs4 import BeautifulSoup
 import random
@@ -17,19 +14,16 @@ def get_title(soup):
 
 def get_summary(html_content):
     soup = html_content
-    # 获取项目概况元素
-    project_summary_element = soup.find('blockquote')
-
     # 提取项目概况文本
-    if project_summary_element:
-        return project_summary_element.text.strip()
-    elif soup.find(string=re.compile('项目概况')):
+    if soup.find(string=re.compile('项目概况')):
         parent_element = soup.find(string=re.compile('项目概况')).find_parent()
 
         if parent_element.name == 'td':
             return '项目概况         ' +soup.find('div', class_='vF_detail_content').find('table').find_all('tr')[1].text.strip()
         else:
             return '项目概况         ' +parent_element.find_all_next()[0].get_text().strip()
+    elif soup.find('blockquote'):
+        return soup.find('blockquote').text.strip()
     else:
         text = html_content.find().get_text()
         end_pos = text.find('一、')
@@ -161,9 +155,6 @@ def get_links(html_content):
 
 class CCGPcountent:
     def __init__(self):
-        """
-        初始化 CCGPScraper 实例
-        """
         self.headers_list = [
             {
                 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
@@ -273,7 +264,7 @@ class CCGPcountent:
             }
         ]
 
-    def fetch_ccgp_contents(self,urls_list):
+    def fetch_ccgp_contents(self,urls_list,wait1 = 1, wait2 = 3):
         """
         遍历每个 URL，发送请求并获取响应，最后返回一个包含 BeautifulSoup 对象的列表。
 
@@ -289,23 +280,22 @@ class CCGPcountent:
         for url in urls_list:
             count += 1
             headers = random.choice(self.headers_list)  # 随机选择一个请求头
+            start_time = time.time()  # 获取请求开始时间
             try:
                 response = requests.get(url, headers=headers)  # 发送请求
                 if response.status_code == 200:
                     response.encoding = 'utf-8'
                     soup = BeautifulSoup(response.text, 'html.parser')  # 解析 HTML
                     responses.append(soup)  # 将 BeautifulSoup 对象添加到列表中
-                    print(f"第{count}页请求成功, URL: {url}")
+                    time.sleep(random.randint(wait1, wait2))  # 等待随机时间
+                    end_time = time.time()  # 获取请求结束时间
+                    print(f"第{count}条请求成功, URL: {url}, elapsed time: {end_time - start_time}秒")
                 else:
                     responses.append('')
-                    print(f"第{count}页请求失败: {response.status_code}, URL: {url}")
+                    print(f"第{count}条请求失败: {response.status_code}, URL: {url}")
 
             except requests.RequestException as e:
-                print(f"第{count}页请求错误: {e}, URL: {url}")
+                print(f"第{count}条请求错误: {e}, URL: {url}")
+                time.sleep(random.randint(wait1, wait2))  # 等待随机时间
                 responses.append(None)  # 出错时添加 None 以保持列表长度一致
-            interval = random.randint(1, 5)  # 生成一个随机间隔时间
-            time.sleep(interval)  # 等待随机时间
         return responses
-
-
-

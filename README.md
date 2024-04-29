@@ -34,9 +34,24 @@ pip install requests==2.31.0
 
 ## Usage
 
-1. Run the `Scraper.py` and `Scraper_all.py` files.
-2. Variable settings:
-   - `start_page`: Starting page for crawling
-   - `end_page`: Ending page for crawling
+1. Run the `run.py` file, and set the following variables:
+   - `start_page`: Starting page number for scraping.
+   - `end_page`: Ending page number for scraping.
+   - `wait1`: Minimum value for the random interval.
+   - `wait2`: Maximum value for the random interval.
 
+## Example
+
+Here is an example (`run.py`) that scrapes pages from 1 to 2 and saves the results as an Excel file:
+
+```python
+from Scraper_all import main
+
+start_page = 1
+end_page = 2
+wait1 = 1
+wait2 = 1
+
+main(start_page=start_page, end_page=end_page, wait1=wait1, wait2=wait2)
+```
 ---

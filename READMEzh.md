@@ -31,14 +31,28 @@
 pip install beautifulsoup4==4.12.3
 pip install pandas==2.2.1
 pip install requests==2.31.0
-
 ```
 
 ## 使用方法
 
-1. 运行 Scraper.py 和 Scraper_all.py 文件。
-2. 变量设置：
+1. 运行 run.py 文件,变量设置：
 * start_page 开始爬取的页码
 * end_page 结束爬取的页码
+* wait1 随机时间间隔的最小值
+* wait2 随机时间间隔的最大值
 
+## 示例
+
+以下是一个示例 (run.py)，爬取第 1 页到第 2 页，并将结果保存为 Excel 文件：
+
+```python
+from Scraper_all import main
+
+start_page = 1
+end_page = 2
+wait1 = 1
+wait2 = 1
+
+main(start_page = start_page, end_page = end_page, wait1 = wait1, wait2 = wait2)
+```
 ---
