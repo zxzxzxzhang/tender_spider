@@ -40,4 +40,3 @@ pip install requests==2.31.0
    - `end_page`: Ending page for crawling
 
 ---
-```
