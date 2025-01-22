@@ -3,7 +3,7 @@
 
 # Tender Information Web Scraper
 
-This project is a web scraper tool for gathering tender information from the CCGP website, serving as a foundation for subsequent RAG analysis. It utilizes Requests for asynchronous web content retrieval and BeautifulSoup for webpage parsing.
+This project is a web scraper tool for gathering tender information, serving as a foundation for subsequent RAG analysis. It utilizes Requests for asynchronous web content retrieval and BeautifulSoup for webpage parsing.
 
 ## Key Features
 
